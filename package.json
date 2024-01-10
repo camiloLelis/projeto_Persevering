@@ -1,0 +1,26 @@
+{
+  "name": "api-node",
+  "version": "1.0.0",
+  "description": "criado para implementar todas tech que aprender.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/camiloLelis/projeto_Persevering.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/camiloLelis/projeto_Persevering/issues"
+  },
+  "homepage": "https://github.com/camiloLelis/projeto_Persevering#readme",
+  "devDependencies": {
+    "prisma": "^5.8.0"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.8.0"
+  }
+}
