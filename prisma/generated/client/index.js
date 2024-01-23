@@ -31,12 +31,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 5.8.0
- * Query Engine version: 6b0aef69b7cdfc787f822ecd7cdc76d5f1991584
+ * Prisma Client JS version: 5.8.1
+ * Query Engine version: 78caf6feeaed953168c64e15a249c3e9a033ebe2
  */
 Prisma.prismaVersion = {
-  client: "5.8.0",
-  engine: "6b0aef69b7cdfc787f822ecd7cdc76d5f1991584"
+  client: "5.8.1",
+  engine: "78caf6feeaed953168c64e15a249c3e9a033ebe2"
 }
 
 Prisma.PrismaClientKnownRequestError = PrismaClientKnownRequestError;
@@ -89,7 +89,9 @@ exports.Prisma.UsuarioScalarFieldEnum = {
   id: 'id',
   nome: 'nome',
   email: 'email',
-  senha: 'senha'
+  senha: 'senha',
+  emailConfirmation: 'emailConfirmation',
+  role: 'role'
 };
 
 exports.Prisma.SortOrder = {
@@ -112,7 +114,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "./prisma/generated/client",
+      "value": "/home/camilo/Documentos/programação/api-node/prisma/generated/client",
       "fromEnvVar": null
     },
     "config": {
@@ -123,6 +125,22 @@ const config = {
         "fromEnvVar": null,
         "value": "debian-openssl-1.1.x",
         "native": true
+      },
+      {
+        "fromEnvVar": null,
+        "value": "debian-openssl-1.1.x"
+      },
+      {
+        "fromEnvVar": null,
+        "value": "debian-openssl-3.0.x"
+      },
+      {
+        "fromEnvVar": null,
+        "value": "linux-musl"
+      },
+      {
+        "fromEnvVar": null,
+        "value": "linux-musl-openssl-3.0.x"
       }
     ],
     "previewFeatures": [],
@@ -133,8 +151,8 @@ const config = {
     "schemaEnvPath": "../../../.env"
   },
   "relativePath": "../..",
-  "clientVersion": "5.8.0",
-  "engineVersion": "6b0aef69b7cdfc787f822ecd7cdc76d5f1991584",
+  "clientVersion": "5.8.1",
+  "engineVersion": "78caf6feeaed953168c64e15a249c3e9a033ebe2",
   "datasourceNames": [
     "db"
   ],
@@ -148,8 +166,9 @@ const config = {
       }
     }
   },
-  "inlineSchema": "Ly8gVGhpcyBpcyB5b3VyIFByaXNtYSBzY2hlbWEgZmlsZSwKLy8gbGVhcm4gbW9yZSBhYm91dCBpdCBpbiB0aGUgZG9jczogaHR0cHM6Ly9wcmlzLmx5L2QvcHJpc21hLXNjaGVtYQovLyBwcmlzbWEvc2NoZW1hLnByaXNtYQpnZW5lcmF0b3IgY2xpZW50IHsKICBwcm92aWRlciA9ICJwcmlzbWEtY2xpZW50LWpzIgogIG91dHB1dCAgID0gIi4vZ2VuZXJhdGVkL2NsaWVudCIKfQoKZGF0YXNvdXJjZSBkYiB7CiAgcHJvdmlkZXIgPSAic3FsaXRlIgogIHVybCAgICAgID0gZW52KCJEQVRBQkFTRV9VUkwiKQp9CgovLyBwcmlzbWEvc2NoZW1hLnByaXNtYQptb2RlbCBVc3VhcmlvIHsKICBpZCAgICAgICBJbnQgICAgICBAaWQgQGRlZmF1bHQoYXV0b2luY3JlbWVudCgpKQogIG5vbWUgICAgIFN0cmluZwogIGVtYWlsICAgIFN0cmluZyAgIEB1bmlxdWUKICBzZW5oYSAgICBTdHJpbmcKfQoK",
-  "inlineSchemaHash": "e44543941430e9b165ce75f87eec653afc2bc2c6d6310e992bfe9259ee78aec1"
+  "inlineSchema": "Z2VuZXJhdG9yIGNsaWVudCB7CiAgcHJvdmlkZXIgICAgICA9ICJwcmlzbWEtY2xpZW50LWpzIgogIG91dHB1dCAgICAgICAgPSAiLi9nZW5lcmF0ZWQvY2xpZW50IgogIGJpbmFyeVRhcmdldHMgPSBbIm5hdGl2ZSIsICAiZGViaWFuLW9wZW5zc2wtMS4xLngiLCAiZGViaWFuLW9wZW5zc2wtMy4wLngiLCAibGludXgtbXVzbCIsICJsaW51eC1tdXNsLW9wZW5zc2wtMy4wLngiXQp9CgpkYXRhc291cmNlIGRiIHsKICBwcm92aWRlciA9ICJzcWxpdGUiCiAgdXJsICAgICAgPSBlbnYoIkRBVEFCQVNFX1VSTCIpCn0KCi8vIHByaXNtYS9zY2hlbWEucHJpc21hCm1vZGVsIFVzdWFyaW8gewogIGlkICAgICAgICAgICAgICAgICBJbnQgICAgICBAaWQgQGRlZmF1bHQoYXV0b2luY3JlbWVudCgpKQogIG5vbWUgICAgICAgICAgICAgICBTdHJpbmcKICBlbWFpbCAgICAgICAgICAgICAgU3RyaW5nICAgQHVuaXF1ZQogIHNlbmhhICAgICAgICAgICAgICBTdHJpbmcKICBlbWFpbENvbmZpcm1hdGlvbiBCb29sZWFuICBAZGVmYXVsdChmYWxzZSkKICByb2xlICAgICAgICAgICAgICAgU3RyaW5nICAgQGRlZmF1bHQoInVzZXIiKQp9Cg==",
+  "inlineSchemaHash": "76130bfd3ab7356dd39bc019d640d07aed5b3552253410ddee55321ccdb08872",
+  "noEngine": false
 }
 
 const fs = require('fs')
@@ -169,7 +188,7 @@ if (!fs.existsSync(path.join(__dirname, 'schema.prisma'))) {
   config.isBundled = true
 }
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"Usuario\":{\"dbName\":null,\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":true,\"isReadOnly\":false,\"hasDefaultValue\":true,\"type\":\"Int\",\"default\":{\"name\":\"autoincrement\",\"args\":[]},\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"nome\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"String\",\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"email\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":true,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"String\",\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"senha\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"String\",\"isGenerated\":false,\"isUpdatedAt\":false}],\"primaryKey\":null,\"uniqueFields\":[],\"uniqueIndexes\":[],\"isGenerated\":false}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"Usuario\":{\"dbName\":null,\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":true,\"isReadOnly\":false,\"hasDefaultValue\":true,\"type\":\"Int\",\"default\":{\"name\":\"autoincrement\",\"args\":[]},\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"nome\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"String\",\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"email\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":true,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"String\",\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"senha\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":false,\"type\":\"String\",\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"emailConfirmation\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":true,\"type\":\"Boolean\",\"default\":false,\"isGenerated\":false,\"isUpdatedAt\":false},{\"name\":\"role\",\"kind\":\"scalar\",\"isList\":false,\"isRequired\":true,\"isUnique\":false,\"isId\":false,\"isReadOnly\":false,\"hasDefaultValue\":true,\"type\":\"String\",\"default\":\"user\",\"isGenerated\":false,\"isUpdatedAt\":false}],\"primaryKey\":null,\"uniqueFields\":[],\"uniqueIndexes\":[],\"isGenerated\":false}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.getQueryEngineWasmModule = undefined
 
@@ -188,6 +207,18 @@ Object.assign(exports, Prisma)
 // file annotations for bundling tools to include these files
 path.join(__dirname, "libquery_engine-debian-openssl-1.1.x.so.node");
 path.join(process.cwd(), "prisma/generated/client/libquery_engine-debian-openssl-1.1.x.so.node")
+
+// file annotations for bundling tools to include these files
+path.join(__dirname, "libquery_engine-debian-openssl-3.0.x.so.node");
+path.join(process.cwd(), "prisma/generated/client/libquery_engine-debian-openssl-3.0.x.so.node")
+
+// file annotations for bundling tools to include these files
+path.join(__dirname, "libquery_engine-linux-musl.so.node");
+path.join(process.cwd(), "prisma/generated/client/libquery_engine-linux-musl.so.node")
+
+// file annotations for bundling tools to include these files
+path.join(__dirname, "libquery_engine-linux-musl-openssl-3.0.x.so.node");
+path.join(process.cwd(), "prisma/generated/client/libquery_engine-linux-musl-openssl-3.0.x.so.node")
 // file annotations for bundling tools to include these files
 path.join(__dirname, "schema.prisma");
 path.join(process.cwd(), "prisma/generated/client/schema.prisma")

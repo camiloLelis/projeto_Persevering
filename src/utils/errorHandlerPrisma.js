@@ -4,7 +4,6 @@ const handleErrorPrisma = (error, res) => {
     } else if (error.code === 'P2002') {
         return res.status(400).json({ message: 'Email já cadastrado.' });
     } else {
-        console.error(error);
         return res.status(500).json({ message: 'Erro interno do servidor' });
     }
 }
