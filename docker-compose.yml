@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: dockerfile
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: development
+      DATABASE_URL: "file:./dev.db"
+      EMAIL_PASSWORD: "x h h j u z c d o k x h b o t t"
+      EMAIL: "lafirmafuerte@gmail.com"
+      JWT_SECRET: "lafirmafuerte73"
+      BASE_URL: "http://localhost:3000"
+      PORT: 3000
