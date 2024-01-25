@@ -33,8 +33,6 @@ const updateConfirmEmailSevice = (usuario)=>{
 const loginUserService = async (email, senha) => {
 
   const user = await loginUserModels(email);
-
-  console.log(user)
   if (!user) {
     return null; 
   }

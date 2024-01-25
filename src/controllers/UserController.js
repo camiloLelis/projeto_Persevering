@@ -67,7 +67,6 @@ const getUserByIdController = async (req, res) => {
 
 const searchAllUsers = async (req, res) => {
     const { id: idAdmin, role} = req.usuario;
-    console.log({ role, idAdmin });
     if (req.usuario.role !== "admin") return res.status(400).json({ "mensagem": "sem permissão"});
 
     try {
