@@ -22,16 +22,15 @@ const handleErrors = (err, req, res, next) => {
     }
   }
   
-  const checkAdminPermission = (role) => {
-    if (role !== 'admin') {
-      throw new CustomError(403, 'Você não tem permissão para executar esta ação.');
-    }
-  };
   
-
-  const checkDeleteSelf = (idToDelete, idAdmin, res) => {
-    if ( idAdmin === idToDelete) {
-      return "error";
+  
+  
+  const checkDeleteSelf = (idToDelete, idAdmin,  role) => {
+    if (role !== 'admin') {
+      return { "msg": 'Você não tem permissão para executar esta ação.', "status": 403};  
+    }
+    if ( idAdmin == idToDelete) {
+      return ({ "msg": 'impossível deletar/auterar a própria conta', "status": 401});  
     }
     return null;
   };
@@ -39,8 +38,7 @@ const handleErrors = (err, req, res, next) => {
 export default {
     handleErrors,
     CustomError,
-    checkAdminPermission,
-    checkDeleteSelf,
+    checkDeleteSelf
 };
   
 

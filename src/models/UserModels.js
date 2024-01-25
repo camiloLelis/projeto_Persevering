@@ -14,21 +14,33 @@ const updateConfirmEmailmodel = async (usuario)=>{
     });
 }
 
-const loginUserModels = async (email, senha) => {
-    return await prisma.usuario.findFirst({ where: { email, senha } });
+const loginUserModels = async (email) => {
+    return await prisma.usuario.findFirst({ where: { email } });
 }
 
 const getUserByIdModel = async (userId) => {
     return await prisma.usuario.findUnique(
-        { where: { 
+        { 
+            where: { 
             id: userId,
+            } ,
+            select: {
+                nome: true,
+                email: true,
+                role: true,
             } 
         });
 }
 
 
 const usersAllModel = async () => {
-    return await prisma.usuario.findMany();
+    return await prisma.usuario.findMany({ 
+        select: {
+            nome: true,
+            email: true,
+            role: true,
+        } 
+    });
 }
 
 const updateUserModel = async (userId, nome, email, senha) => {

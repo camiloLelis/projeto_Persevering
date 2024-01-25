@@ -55,6 +55,5 @@ export const isAuthEmailConfirmed  = (token) => {
       }
     jwtDecode = decode;
   });
-  console.log("jwtdecode",jwtDecode);
   return jwtDecode;  
 }  
