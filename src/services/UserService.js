@@ -1,3 +1,4 @@
+import bcrypt from 'bcrypt';
 import { 
           getUserByIdModel, 
           postUserModels, 
@@ -10,8 +11,17 @@ import {
 
 import errorHandlerCredentials from '../utils/errorCredentials.js';
 
+const saltRounds = 10; // Número de rounds para o bcrypt
+
+
+const hashPassword = async (password) => {
+  const hashedPassword = await bcrypt.hash(password, saltRounds);
+  return hashedPassword;
+};
+
 const postUserService = async (nome, email, senha) => {
-    const usuario = await postUserModels( nome, email, senha);
+    const hashedPassword = await hashPassword(senha);
+    const usuario = await postUserModels( nome, email, hashedPassword);
     return usuario
 }
 
@@ -21,8 +31,21 @@ const updateConfirmEmailSevice = (usuario)=>{
 
 
 const loginUserService = async (email, senha) => {
-  const user = await loginUserModels(email, senha);
-  return user;
+
+  const user = await loginUserModels(email);
+
+  console.log(user)
+  if (!user) {
+    return null; 
+  }
+
+  const match = await bcrypt.compare(senha, user.senha);
+
+  if (match) {
+    return user; 
+  }
+
+  return null
 }
 
 const getUserByIdService = (userId) => {
@@ -34,14 +57,26 @@ const usersAllService = () => {
   return usersAllModel();
 }
 
-const updateUserService = async (userId, nome, email, senha) => {
+const updateUserService = async (userId, nome, email, senha, idAdmin, role) => {
+  const ifError = errorHandlerCredentials.checkDeleteSelf(userId, idAdmin, role);
+ 
+  if(ifError) return (
+    { 
+      msg: ifError.msg, 
+      status: ifError.status
+    });
+
   const { nome: usuario } =  await updateUserModel(userId, nome, email, senha);
-  return usuario;
+  return { "msg": ` ${usuario} atualizado com sucesso`, "status": 200};
 }
 
 const deleteUserService = async (idToDelete, role, idAdmin, res)=> {
-  const havemessage = errorHandlerCredentials.checkDeleteSelf(idToDelete, idAdmin, res);
-  if(havemessage) return { "msg": 'vc não pode deletar você mesmo.', "status": 401};
+  const ifError = errorHandlerCredentials.checkDeleteSelf(idToDelete, idAdmin, role);
+  if(ifError) return (
+    { 
+      msg: ifError.msg, 
+      status: ifError.status
+    });
   const { nome } = await deleteUserModel(idToDelete);
   return { "msg": ` ${nome} deletado com sucesso`, "status": 200};
 }
