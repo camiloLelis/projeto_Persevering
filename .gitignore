@@ -1,8 +1,5 @@
 node_modules/
 .DS_Store
 .env
-./prisma/dev.db
-prisma/dev.db
-prisma/dev.db-journal
-prisma/dev.db
-.gitignore
+prisma/
+ecosystem.config.cjs
