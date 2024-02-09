@@ -36,6 +36,7 @@ const getUserByIdModel = async (userId) => {
 const usersAllModel = async () => {
     return await prisma.usuario.findMany({ 
         select: {
+            id: true,
             nome: true,
             email: true,
             role: true,

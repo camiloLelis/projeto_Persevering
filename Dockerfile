@@ -1,10 +1,11 @@
 # Use uma imagem base adequada para sua aplicação (por exemplo, Node.js, Python, etc.)
 FROM node:18.17.0
 
+RUN npm install -g pm2
 # Crie e defina o diretório de trabalho
 WORKDIR /usr/src/app
 
-ENV DATABASE_URL="file:./dev.db"
+ENV DATABASE_URL="file:./prisma/dev.db"
 
 
 # Copie os arquivos necessários para o contêiner
