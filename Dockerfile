@@ -5,8 +5,6 @@ RUN npm install -g pm2
 # Crie e defina o diretório de trabalho
 WORKDIR /usr/src/app
 
-ENV DATABASE_URL="file:./prisma/dev.db"
-
 
 # Copie os arquivos necessários para o contêiner
 COPY package*.json ./
