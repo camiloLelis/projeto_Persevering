@@ -4,9 +4,6 @@ FROM node:18.17.0
 # Crie e defina o diretório de trabalho
 WORKDIR /usr/src/app
 
-ENV DATABASE_URL="file:./dev.db"
-
-
 # Copie os arquivos necessários para o contêiner
 COPY package*.json ./
 
