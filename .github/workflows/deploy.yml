@@ -63,14 +63,11 @@ jobs:
             ls -l
 
             # Descompacta o arquivo .tar.gz e carrega a imagem Docker
-            if [ -f "node_app_18.17.0.tar.gz" ]; then
-              echo "Descompactando o arquivo node_app_18.17.0.tar.gz e carregando a imagem Docker..."
-              gunzip -c node_app_18.17.0.tar.gz | docker load
-              echo "Imagem Docker carregada com sucesso."
-            else
-              echo "Arquivo node_app_18.17.0.tar.gz não encontrado!"
-              exit 1
-            fi
+         
+            echo "Descompactando o arquivo node_app_18.17.0.tar.gz e carregando a imagem Docker..."
+            gunzip -c node_app_18.17.0.tar.gz | docker load
+            echo "Imagem Docker carregada com sucesso."
+          
 
             # Cria o arquivo .env
             echo "Criando o arquivo .env..."
