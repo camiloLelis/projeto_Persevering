@@ -37,7 +37,7 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.SSH_KEY }}
           source: "node_app.tar.gz"  # Aqui a tag foi removida
-          target: "/home/${{ secrets.EC2_USER }}/node_app.tar.gz"
+          target: "/home/${{ secrets.EC2_USER }}/"
 
       - name: SSH into EC2 and Deploy
         uses: appleboy/ssh-action@v0.1.7
