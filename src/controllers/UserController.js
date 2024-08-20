@@ -98,7 +98,7 @@ const updateUserId = async (req, res) => {
 const deleteUserController = async (req, res) => {
     const idToDelete = parseInt(req.params.id);
     const { id: idAdmin, role} = req.usuario;
-    if (!idAdmin || !idToDelete) return res.status(400).json({ "mensagem": "Id não informado." });
+    if (idAdmin == null || isNaN(idToDelete)) return res.status(400).json({ "mensagem": "Id não informado." });
     try {
         const user = await userService.deleteUserService(idToDelete, role, idAdmin,res);
         return res.status(user.status).json({ msg: user.msg });
