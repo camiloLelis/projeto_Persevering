@@ -3,53 +3,75 @@ name: Deploy to AWS
 on:
   push:
     branches:
-      - refine2  # Deploy automático ao fazer push na branch "main"
+      - refine2 # Deploy automático ao fazer push na branch "refine2"
 
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
 
-    - name: Build Docker image
-      run: |
-        docker build -t node_app:latest .
+      - name: Build Docker image
+        run: |
+          docker build -t node_app:latest .
 
-    - name: Save Docker image to file
-      run: |
-        docker save node_app:latest | gzip > node_app_latest.tar.gz
+      - name: Save Docker image to file
+        run: |
+          docker save node_app:latest | gzip > node_app_latest.tar.gz
 
-    - name: Copy Docker image to EC2
-      uses: appleboy/scp-action@v0.1.3
-      with:
-        host: ${{ secrets.EC2_IP }}
-        username: ${{ secrets.EC2_USER }}
-        key: ${{ secrets.SSH_KEY }}
-        source: "node_app_latest.tar.gz"
-        target: "/home/${{ secrets.EC2_USER }}/node_app_latest.tar.gz"
+      - name: Copy Docker image to EC2
+        uses: appleboy/scp-action@v0.1.3
+        with:
+          host: ${{ secrets.EC2_IP }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          source: "node_app_latest.tar.gz"
+          target: "/home/${{ secrets.EC2_USER }}/node_app_latest.tar.gz"
 
-    - name: SSH into EC2 and Deploy
-      uses: appleboy/ssh-action@v0.1.7
-      with:
-        host: ${{ secrets.EC2_IP }}
-        username: ${{ secrets.EC2_USER }}
-        key: ${{ secrets.SSH_KEY }}
-        script: |
-          gunzip -c /home/${{ secrets.EC2_USER }}/node_app_latest.tar.gz | docker load
-          mkdir -p /home/${{ secrets.EC2_USER }}/api  # Cria a pasta "api" se não existir
-          cd /home/${{ secrets.EC2_USER }}/api  # Acessa a pasta "api"
-          echo "NODE_ENV=development" > .env
-          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env
-          echo "EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }}" >> .env
-          echo "EMAIL=${{ secrets.EMAIL }}" >> .env
-          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
-          echo "BASE_URL=${{ secrets.BASE_URL }}" >> .env
-          echo "PORT=${{secrets.PORT}}" >> .env
-          echo "ORIGIN_URL_FRONTEND=${{secrets.ORIGIN_URL_FRONTEND}}" >> .env
-          docker-compose down  # Para o contêiner atual, se estiver rodando
-          docker-compose up -d  # Sobe o novo contêiner com as novas variáveis de ambiente
+      - name: SSH into EC2 and Deploy
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.EC2_IP }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            # Cria a pasta "api" se não existir
+            mkdir -p /home/${{ secrets.EC2_USER }}/api
+
+            # Move o arquivo .tar.gz para a pasta "api"
+            mv /home/${{ secrets.EC2_USER }}/node_app_latest.tar.gz /home/${{ secrets.EC2_USER }}/api/
+
+            # Acessa a pasta "api"
+            cd /home/${{ secrets.EC2_USER }}/api
+
+            # Descompacta o arquivo .tar.gz e carrega a imagem Docker
+            if [ -f "node_app_latest.tar.gz" ]; then
+              gunzip -c node_app_latest.tar.gz | docker load
+            else
+              echo "Arquivo node_app_latest.tar.gz não encontrado!"
+              exit 1
+            fi
+
+            # Cria o arquivo .env
+            echo "NODE_ENV=production" > .env
+            echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env
+            echo "EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }}" >> .env
+            echo "EMAIL=${{ secrets.EMAIL }}" >> .env
+            echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
+            echo "BASE_URL=${{ secrets.BASE_URL }}" >> .env
+            echo "PORT=3000" >> .env
+            echo "ORIGIN_URL_FRONTEND=${{ secrets.ORIGIN_URL_FRONTEND }}" >> .env
+
+            # Verifica se o docker-compose.yml existe e executa os comandos
+            if [ -f "docker-compose.yml" ]; then
+              docker-compose down  # Para o contêiner atual, se estiver rodando
+              docker-compose up -d  # Sobe o novo contêiner com as novas variáveis de ambiente
+            else
+              echo "Arquivo docker-compose.yml não encontrado!"
+              exit 1
+            fi
