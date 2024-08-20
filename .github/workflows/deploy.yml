@@ -25,7 +25,7 @@ jobs:
       - name: Save Docker image to file
         run: |
           echo "Salvando a imagem Docker para o arquivo..."
-          docker save node_app:latest | gzip > node_app_latest.tar.gz
+          docker save api-node_api | gzip > api-node_api.tar.gz
           echo "Imagem Docker salva como node_app_latest.tar.gz."
           echo "Verificando o tipo do arquivo:"
           file node_app_latest.tar.gz
