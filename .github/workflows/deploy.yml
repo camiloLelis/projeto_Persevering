@@ -48,6 +48,12 @@ jobs:
             # Cria a pasta "api" se não existir
             mkdir -p /home/${{ secrets.EC2_USER }}/api
 
+            # Verifica se já existe um arquivo ou diretório com o mesmo nome
+            if [ -d "/home/${{ secrets.EC2_USER }}/api/node_app_latest.tar.gz" ]; then
+              echo "O diretório node_app_latest.tar.gz já existe. Removendo o diretório..."
+              rm -rf /home/${{ secrets.EC2_USER }}/api/node_app_latest.tar.gz
+            fi
+
             # Move o arquivo .tar.gz para a pasta "api"
             mv /home/${{ secrets.EC2_USER }}/node_app_latest.tar.gz /home/${{ secrets.EC2_USER }}/api/
 
@@ -59,7 +65,7 @@ jobs:
 
             # Descompacta o arquivo .tar.gz e carrega a imagem Docker
             if [ -f "node_app_latest.tar.gz" ]; then
-              gunzip -c node_app_latest.tar.gz | docker load
+              docker load < node_app_latest.tar.gz
             else
               echo "Arquivo node_app_latest.tar.gz não encontrado!"
               exit 1
