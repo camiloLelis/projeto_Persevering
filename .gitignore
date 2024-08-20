@@ -1,6 +1,6 @@
-node_modules/
-.DS_Store
-.env
-prisma/
-ecosystem.config.cjs
+/node_modules/
+/.DS_Store
+/.env
+/prisma/dev.db
+/ecosystem.config.cjs
 prisma/dev.db

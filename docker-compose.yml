@@ -10,11 +10,11 @@ services:
     ports:
       - "3000:3000"
     environment:
-      NODE_ENV: development
-      DATABASE_URL: "file:./dev.db"
-      EMAIL_PASSWORD: "x h h j u z c d o k x h b o t t"
-      EMAIL: "lafirmafuerte@gmail.com"
-      JWT_SECRET: "lafirmafuerte73"
-      BASE_URL: "http://localhost:3000"
-      PORT: 3000
-      ORIGIN_URL_FRONTEND: "http://127.0.0.1:5500"
+      NODE_ENV: "${NODE_ENV}"
+      DATABASE_URL: "${DATABASE_URL}"
+      EMAIL_PASSWORD: "${EMAIL_PASSWORD}"
+      EMAIL: "${EMAIL}"
+      JWT_SECRET: "${JWT_SECRET}"
+      BASE_URL: "${BASE_URL}"
+      PORT: "${PORT}"
+      ORIGIN_URL_FRONTEND: "${ORIGIN_URL_FRONTEND}"
