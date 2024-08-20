@@ -114,7 +114,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/home/camilo/Documentos/programação/api-node/prisma/generated/client",
+      "value": "/workspaces/projeto_Persevering/prisma/generated/client",
       "fromEnvVar": null
     },
     "config": {
@@ -147,8 +147,7 @@ const config = {
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": "../../../.env",
-    "schemaEnvPath": "../../../.env"
+    "rootEnvPath": null
   },
   "relativePath": "../..",
   "clientVersion": "5.8.1",
@@ -157,7 +156,7 @@ const config = {
     "db"
   ],
   "activeProvider": "sqlite",
-  "postinstall": false,
+  "postinstall": true,
   "inlineDatasources": {
     "db": {
       "url": {
