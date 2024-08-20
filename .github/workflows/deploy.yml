@@ -18,12 +18,17 @@ jobs:
 
       - name: Build Docker image
         run: |
+          echo "Construindo a imagem Docker..."
           docker build -t node_app:latest .
+          echo "Imagem Docker construída com sucesso."
 
       - name: Save Docker image to file
         run: |
+          echo "Salvando a imagem Docker para o arquivo..."
           docker save node_app:latest | gzip > node_app_latest.tar.gz
-          ls -l
+          echo "Imagem Docker salva como node_app_latest.tar.gz."
+          echo "Verificando o tipo do arquivo:"
+          file node_app_latest.tar.gz
 
       - name: Copy Docker image to EC2
         uses: appleboy/scp-action@v0.1.3
@@ -33,8 +38,6 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           source: "node_app_latest.tar.gz"
           target: "/home/${{ secrets.EC2_USER }}/node_app_latest.tar.gz"
-      - name: Confirm file transfer
-        run: echo "Arquivo transferido com sucesso."
 
       - name: SSH into EC2 and Deploy
         uses: appleboy/ssh-action@v0.1.7
@@ -44,34 +47,33 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             # Verifica se o arquivo foi transferido
+            echo "Verificando arquivos na pasta 'api':"
             ls -l /home/${{ secrets.EC2_USER }}
+
             # Cria a pasta "api" se não existir
             mkdir -p /home/${{ secrets.EC2_USER }}/api
 
-            # Verifica se já existe um arquivo ou diretório com o mesmo nome
-            if [ -d "/home/${{ secrets.EC2_USER }}/api/node_app_latest.tar.gz" ]; then
-              echo "O diretório node_app_latest.tar.gz já existe. Removendo o diretório..."
-              rm -rf /home/${{ secrets.EC2_USER }}/api/node_app_latest.tar.gz
-            fi
-
             # Move o arquivo .tar.gz para a pasta "api"
+            echo "Movendo o arquivo node_app_latest.tar.gz para a pasta 'api'..."
             mv /home/${{ secrets.EC2_USER }}/node_app_latest.tar.gz /home/${{ secrets.EC2_USER }}/api/
-
-            echo "Verificando arquivos na pasta 'api':"
-            ls -l /home/${{ secrets.EC2_USER }}/api
 
             # Acessa a pasta "api"
             cd /home/${{ secrets.EC2_USER }}/api
+            echo "Acessando a pasta 'api':"
+            ls -l
 
             # Descompacta o arquivo .tar.gz e carrega a imagem Docker
             if [ -f "node_app_latest.tar.gz" ]; then
-              docker load < node_app_latest.tar.gz
+              echo "Descompactando o arquivo node_app_latest.tar.gz e carregando a imagem Docker..."
+              gunzip -c node_app_latest.tar.gz | docker load
+              echo "Imagem Docker carregada com sucesso."
             else
               echo "Arquivo node_app_latest.tar.gz não encontrado!"
               exit 1
             fi
 
             # Cria o arquivo .env
+            echo "Criando o arquivo .env..."
             echo "NODE_ENV=production" > .env
             echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env
             echo "EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }}" >> .env
@@ -83,7 +85,9 @@ jobs:
 
             # Verifica se o docker-compose.yml existe e executa os comandos
             if [ -f "docker-compose.yml" ]; then
+              echo "Arquivo docker-compose.yml encontrado. Parando contêiner atual..."
               docker-compose down  # Para o contêiner atual, se estiver rodando
+              echo "Subindo novo contêiner com as novas variáveis de ambiente..."
               docker-compose up -d  # Sobe o novo contêiner com as novas variáveis de ambiente
             else
               echo "Arquivo docker-compose.yml não encontrado!"
