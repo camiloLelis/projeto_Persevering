@@ -51,6 +51,9 @@ jobs:
             # Move o arquivo .tar.gz para a pasta "api"
             mv /home/${{ secrets.EC2_USER }}/node_app_latest.tar.gz /home/${{ secrets.EC2_USER }}/api/
 
+            echo "Verificando arquivos na pasta 'api':"
+            ls -l /home/${{ secrets.EC2_USER }}/api
+
             # Acessa a pasta "api"
             cd /home/${{ secrets.EC2_USER }}/api
 
